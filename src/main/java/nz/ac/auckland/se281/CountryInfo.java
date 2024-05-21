@@ -12,4 +12,16 @@ public class CountryInfo {
     this.continent = continent;
     this.tax = tax;
   }
+
+  public String getName() {
+    return name;
+  }
+
+  public String getContinent() {
+    return continent;
+  }
+
+  public String getTax() {
+    return Integer.toString(tax);
+  }
 }
