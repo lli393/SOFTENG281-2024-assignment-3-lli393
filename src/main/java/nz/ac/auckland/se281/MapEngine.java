@@ -95,12 +95,12 @@ public class MapEngine {
         MessageCli.INSERT_SOURCE.printMessage();
         sourceCountry = Utils.scanner.nextLine();
         sourceCountry = Utils.capitalizeFirstLetterOfEachWord(sourceCountry);
+        countryName = sourceCountry;
+        doesCountryExist(sourceCountry);
+
         MessageCli.INSERT_DESTINATION.printMessage();
         destinationCountry = Utils.scanner.nextLine();
         destinationCountry = Utils.capitalizeFirstLetterOfEachWord(destinationCountry);
-        //
-        countryName = sourceCountry;
-        doesCountryExist(sourceCountry);
         countryName = destinationCountry;
         doesCountryExist(destinationCountry);
         validInput = true;
