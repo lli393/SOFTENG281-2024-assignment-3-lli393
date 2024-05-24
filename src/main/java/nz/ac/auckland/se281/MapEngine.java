@@ -84,26 +84,35 @@ public class MapEngine {
     String sourceCountry = null;
     String destinationCountry = null;
     String countryName = null;
-    boolean validInput = false;
+    // check if source and destination input is valid
+    int validInput = -1; // -1=non valid, 0=source valid(one), 1=destination valid(both)
 
     int tax = 0;
 
-    while (!validInput) {
+    while (validInput != 1) {
       // check if both country from user's input are valid
       try {
-        // ask user for source and destination
-        MessageCli.INSERT_SOURCE.printMessage();
-        sourceCountry = Utils.scanner.nextLine();
-        sourceCountry = Utils.capitalizeFirstLetterOfEachWord(sourceCountry);
-        countryName = sourceCountry;
-        doesCountryExist(sourceCountry);
-
-        MessageCli.INSERT_DESTINATION.printMessage();
-        destinationCountry = Utils.scanner.nextLine();
-        destinationCountry = Utils.capitalizeFirstLetterOfEachWord(destinationCountry);
-        countryName = destinationCountry;
-        doesCountryExist(destinationCountry);
-        validInput = true;
+        if (validInput == -1) {
+          // ask user for source
+          MessageCli.INSERT_SOURCE.printMessage();
+          // get input and capitalise first letter of each word
+          sourceCountry = Utils.scanner.nextLine();
+          sourceCountry = Utils.capitalizeFirstLetterOfEachWord(sourceCountry);
+          // set countryName, if throw exception print this name
+          countryName = sourceCountry;
+          // if exists continue, if not exception thrown
+          doesCountryExist(sourceCountry);
+          // exception is not thrown, input is valid
+          validInput++;
+        } else if (validInput == 0) {
+          // ask user for destination
+          MessageCli.INSERT_DESTINATION.printMessage();
+          destinationCountry = Utils.scanner.nextLine();
+          destinationCountry = Utils.capitalizeFirstLetterOfEachWord(destinationCountry);
+          countryName = destinationCountry;
+          doesCountryExist(destinationCountry);
+          validInput++;
+        }
       } catch (CountryDoesNotExistException e) {
         // print error message
         MessageCli.INVALID_COUNTRY.printMessage(countryName);
