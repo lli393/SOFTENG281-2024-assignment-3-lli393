@@ -50,10 +50,13 @@ public class Graph<String> {
           // add it to the queue and visited
           queue.add(adjacentCountry);
           visited.add(adjacentCountry);
+          // use adjacent country to get this country
+          parentMap.put(adjacentCountry, currentCountry);
         } else if (!adjacentCountry.equals(parentMap.get(currentCountry))
             && adjacentCountry.equals(endNode)) {
           // closest path detected
           List<String> cyclePath = new ArrayList<>();
+          // add this adjacent country to closest path
           cyclePath.add(adjacentCountry);
           String node = currentCountry;
           while (node != null) {
@@ -64,6 +67,7 @@ public class Graph<String> {
               break;
             }
           }
+
           Collections.reverse(cyclePath);
           return cyclePath;
         }
