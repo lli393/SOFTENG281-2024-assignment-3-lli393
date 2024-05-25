@@ -2,74 +2,61 @@ package nz.ac.auckland.se281;
 
 import java.util.*;
 
-public class Graph<String> {
+public class Graph {
   private Map<String, List<String>> adjacenciesMap;
 
   public Graph() {
-    this.adjacenciesMap = new HashMap<>();
+    this.adjacenciesMap = new LinkedHashMap<>();
   }
 
   public void addVertex(String node) {
+    // add if not yet
     adjacenciesMap.putIfAbsent(node, new LinkedList<>());
   }
 
   public void addEdge(String node1, String node2) {
+    // create a node1 if not yet and a linkedlist for adjacencies
     addVertex(node1);
-    addVertex(node2);
+    // put node 2 into adjacencies linkedlist for node 1
     adjacenciesMap.get(node1).add(node2);
-    adjacenciesMap.get(node2).add(node1);
   }
 
   public List<String> detectPathFromSource(String startNode, String endNode) {
-    if (!adjacenciesMap.containsKey(startNode) || !adjacenciesMap.containsKey(endNode)) {
-      return null; // Start or end node not present in the map
-    }
-
-    // record visited countries
     List<String> visited = new ArrayList<>();
-    // record the order of visits
     Queue<String> queue = new LinkedList<>();
-    // record the shortest path
-    List<String> countryPath = new ArrayList<>();
+    // key = child, value = parent(closer to root)
     Map<String, String> parentMap = new HashMap<>();
-
-    // add root to the queue to search first
+    // list to store the closest path
+    List<String> path = new LinkedList<>();
     queue.add(startNode);
-    // visit the first country(source)
     visited.add(startNode);
-    countryPath.add(startNode);
 
     while (!queue.isEmpty()) {
-      // remove first element from queue
-      String currentCountry = queue.poll();
 
-      // iterate through adjacent nodes
-      for (String adjacentCountry : adjacenciesMap.get(currentCountry)) {
-        // if the adjacent country have not been visited
-        if (!visited.contains(adjacentCountry)) {
-          // add it to the queue and visited
-          queue.add(adjacentCountry);
-          visited.add(adjacentCountry);
-          // use adjacent country to get this country
-          parentMap.put(adjacentCountry, currentCountry);
-        } else if (!adjacentCountry.equals(parentMap.get(currentCountry))
-            && adjacentCountry.equals(endNode)) {
-          // closest path detected
-          List<String> cyclePath = new ArrayList<>();
-          // add this adjacent country to closest path
-          cyclePath.add(adjacentCountry);
-          String node = currentCountry;
-          while (node != null) {
-            cyclePath.add(node);
-            node = parentMap.get(node);
-            if (node != null && node.equals(adjacentCountry)) {
-              cyclePath.add(node);
+      String node = queue.poll();
+
+      for (String country : adjacenciesMap.get(node)) {
+
+        if (!visited.contains(country)) {
+          visited.add(country);
+          queue.add(country);
+          // use country as key to find the node(value)
+          parentMap.put(country, node);
+        }
+        if (country.equals(endNode)) {
+          // set current as endNode
+          String current = country;
+          while (current != null) {
+            path.add(current);
+            // update current to adjacent countries(closer to root)
+            current = parentMap.get(current);
+            if (current != null && current.equals(startNode)) {
+              path.add(current);
               break;
             }
           }
-
-          Collections.reverse(cyclePath);
-          return cyclePath;
+          Collections.reverse(path);
+          return path;
         }
       }
     }

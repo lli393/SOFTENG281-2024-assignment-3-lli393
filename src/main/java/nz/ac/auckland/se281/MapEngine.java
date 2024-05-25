@@ -10,7 +10,7 @@ public class MapEngine {
   // HashMap for country and it's infomations
   Map<String, String[]> map = new HashMap<>();
   // create a graph for BFS
-  Graph<String> route = new Graph<>();
+  Graph route = new Graph();
 
   public MapEngine() {
     // add other code here if you want
@@ -24,6 +24,7 @@ public class MapEngine {
     // add code here to create data structures
 
     // create country informaltion object for all
+    // search vertically into each row
     for (int i = 0; i < countries.size(); i++) {
       // split the lines of countries
       String[] countryInfo = countries.get(i).split(",");
@@ -32,6 +33,7 @@ public class MapEngine {
       // split the lines of adjacencies
       String[] adjacenciesInfo = adjacencies.get(i).split(",");
       // for loop to add each adjacent country, from second element to last element
+      // in column, horizontal direction
       for (int j = 1; j < adjacenciesInfo.length; j++) {
         route.addEdge(adjacenciesInfo[0], adjacenciesInfo[j]);
       }
