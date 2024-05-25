@@ -62,4 +62,25 @@ public class Graph {
     }
     return null;
   }
+
+  /**
+   * This method gets a Set of unique ordered continents based on the map and path informations.
+   *
+   * @param map the map contains country name(string) as key and country info(string array) as
+   *     value. country info consists country name(index 0), continent(index 1), tax value(index 2)
+   *     respectively.
+   * @param path the shortest path from source to destination
+   * @return
+   */
+  public Set<String> getContinentInfo(Map<String, String[]> map, List<String> path) {
+    // create a list for the continents, need to be unique and ordered
+    Set<String> continentList = new LinkedHashSet<>();
+    // search through every country in shortest path
+    for (String country : path) {
+      // add the continent if unique
+      continentList.add(map.get(country)[1]);
+    }
+    // result
+    return continentList;
+  }
 }

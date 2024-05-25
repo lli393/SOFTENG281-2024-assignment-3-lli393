@@ -3,6 +3,7 @@ package nz.ac.auckland.se281;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /** This class is the main entry point. */
 public class MapEngine {
@@ -125,8 +126,11 @@ public class MapEngine {
     List<String> countryPath = route.detectPathFromSource(sourceCountry, destinationCountry);
     // The fastest route of country
     MessageCli.ROUTE_INFO.printMessage(countryPath.toString());
+
+    // get the unique ordered continents for countries in shortest path
+    Set<String> continentPath = route.getContinentInfo(map, countryPath);
     // ordered list of continents visited(starting one included)
-    MessageCli.CONTINENT_INFO.printMessage(countryPath.toString());
+    MessageCli.CONTINENT_INFO.printMessage(continentPath.toString());
 
     // total cross border taxes to pay(starting one excluded)
     MessageCli.TAX_INFO.printMessage(Integer.toString(tax)); // tax num inside
