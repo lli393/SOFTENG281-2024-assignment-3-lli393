@@ -133,6 +133,10 @@ public class MapEngine {
     MessageCli.CONTINENT_INFO.printMessage(continentPath.toString());
 
     tax = route.getTotalTax(map, countryPath);
+    if (tax == 0) {
+      MessageCli.NO_CROSSBORDER_TRAVEL.printMessage();
+      return;
+    }
     // total cross border taxes to pay(starting one excluded)
     MessageCli.TAX_INFO.printMessage(Integer.toString(tax)); // tax num inside
   }

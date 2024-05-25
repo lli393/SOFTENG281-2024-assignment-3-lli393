@@ -84,6 +84,15 @@ public class Graph {
     return continentList;
   }
 
+  /**
+   * This method gets a integer of total tax user need to pay to travel in shortest path
+   *
+   * @param map the map contains country name(string) as key and country info(string array) as
+   *     value. country info consists country name(index 0), continent(index 1), tax value(index 2)
+   *     respectively.
+   * @param path the shortest path from source to destination
+   * @return
+   */
   public int getTotalTax(Map<String, String[]> map, List<String> path) {
     // initialise total
     int total = 0;
