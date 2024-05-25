@@ -90,7 +90,7 @@ public class MapEngine {
     // check if source and destination input is valid
     int validInput = -1; // -1=non valid, 0=source valid(one), 1=destination valid(both)
 
-    int tax = 0;
+    int tax;
 
     while (validInput != 1) {
       // check if both country from user's input are valid
@@ -132,6 +132,7 @@ public class MapEngine {
     // ordered list of continents visited(starting one included)
     MessageCli.CONTINENT_INFO.printMessage(continentPath.toString());
 
+    tax = route.getTotalTax(map, countryPath);
     // total cross border taxes to pay(starting one excluded)
     MessageCli.TAX_INFO.printMessage(Integer.toString(tax)); // tax num inside
   }

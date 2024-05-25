@@ -83,4 +83,21 @@ public class Graph {
     // result
     return continentList;
   }
+
+  public int getTotalTax(Map<String, String[]> map, List<String> path) {
+    // initialise total
+    int total = 0;
+    // source country name
+    String sourceCountry = path.get(0);
+    // source country tax
+    int sourceTax = Integer.parseInt((map.get(sourceCountry)[2]));
+    // delete sourceTax from total, doesn't have to pay
+    total -= sourceTax;
+    for (String country : path) {
+      // add tax from every country
+      total += Integer.parseInt(map.get(country)[2]);
+    }
+    // result
+    return total;
+  }
 }
