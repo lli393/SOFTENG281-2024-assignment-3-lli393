@@ -1,5 +1,4 @@
 package nz.ac.auckland.se281;
 
-public class CountryDoesNotExistException extends Exception {
-  public CountryDoesNotExistException() {}
-}
+/** This class is the main entry point for country does not exist. */
+public class CountryDoesNotExistException extends Exception {}

@@ -1,19 +1,41 @@
 package nz.ac.auckland.se281;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
 
+/** This class is the main entry point for graph. */
 public class Graph {
   private Map<String, List<String>> adjacenciesMap;
 
+  /** This method is the constructor of the Graph class. */
   public Graph() {
     this.adjacenciesMap = new LinkedHashMap<>();
   }
 
+  /**
+   * This method adds a vertex to the graph.
+   *
+   * @param node the node of country
+   */
   public void addVertex(String node) {
-    // add if not yet
+    // add node if not yet, with an empty linkedlist for adjacencies
     adjacenciesMap.putIfAbsent(node, new LinkedList<>());
   }
 
+  /**
+   * This method adds an edge between two nodes.
+   *
+   * @param node1 the node of country
+   * @param node2 the node of adjacencies
+   */
   public void addEdge(String node1, String node2) {
     // create a node1 if not yet and a linkedlist for adjacencies
     addVertex(node1);
@@ -66,11 +88,11 @@ public class Graph {
   /**
    * This method gets a Set of unique ordered continents based on the map and path informations.
    *
-   * @param map the map contains country name(string) as key and country info(string array) as
-   *     value. country info consists country name(index 0), continent(index 1), tax value(index 2)
+   * @param map contains country name(string) as key and country info(string array) as value.
+   *     country info consists country name(index 0), continent(index 1), tax value(index 2)
    *     respectively.
-   * @param path the shortest path from source to destination
-   * @return
+   * @param path the shortest path from source to destination. The path is a list of country names.
+   * @return returns a set of unique and ordered continents.
    */
   public Set<String> getContinentInfo(Map<String, String[]> map, List<String> path) {
     // create a list for the continents, need to be unique and ordered
@@ -90,8 +112,8 @@ public class Graph {
    * @param map the map contains country name(string) as key and country info(string array) as
    *     value. country info consists country name(index 0), continent(index 1), tax value(index 2)
    *     respectively.
-   * @param path the shortest path from source to destination
-   * @return
+   * @param path the shortest path from source to destination.
+   * @return returns the total tax user need to pay to travel in shortest path.
    */
   public int getTotalTax(Map<String, String[]> map, List<String> path) {
     // initialise total

@@ -9,9 +9,9 @@ import java.util.Set;
 public class MapEngine {
   // intialise and declare fields
   // HashMap for country and it's infomations
-  Map<String, String[]> map = new HashMap<>();
+  protected Map<String, String[]> map = new HashMap<>();
   // create a graph for BFS
-  Graph route = new Graph();
+  private Graph route = new Graph();
 
   public MapEngine() {
     // add other code here if you want
@@ -52,13 +52,15 @@ public class MapEngine {
     // add code here to ask for user's input
     MessageCli.INSERT_COUNTRY.printMessage();
 
+    // get users input
+    countryName = Utils.scanner.nextLine();
+    // capitalise the first letter
+    countryName = Utils.capitalizeFirstLetterOfEachWord(countryName);
+
     // while the input is not valid, do try catch until valid input
     while (!validInput) {
       try {
-        // get users input
-        countryName = Utils.scanner.nextLine();
-        // capitalise the first letter
-        countryName = Utils.capitalizeFirstLetterOfEachWord(countryName);
+
         // check if country is in map, if not exception is thrown and catched
         doesCountryExist(countryName);
         // if no exception thrown, the input is valid
@@ -69,11 +71,20 @@ public class MapEngine {
       } catch (CountryDoesNotExistException e) {
         // print error message
         MessageCli.INVALID_COUNTRY.printMessage(countryName);
+        // get users input
+        countryName = Utils.scanner.nextLine();
+        // capitalise the first letter
+        countryName = Utils.capitalizeFirstLetterOfEachWord(countryName);
       }
     }
   }
 
-  /** method checks if country exist in the map, if not exception is thrown */
+  /**
+   * method checks if country exist in the map, if not exception is thrown.
+   *
+   * @param countryName the name of the country
+   * @throws CountryDoesNotExistException check if the country does not exist in the map
+   */
   public void doesCountryExist(String countryName) throws CountryDoesNotExistException {
     // if it doesnt contain country
     if (!map.containsKey(countryName)) {
@@ -86,39 +97,48 @@ public class MapEngine {
     // declare fields
     String sourceCountry = null;
     String destinationCountry = null;
-    String countryName = null;
     // check if source and destination input is valid
-    int validInput = -1; // -1=non valid, 0=source valid(one), 1=destination valid(both)
-
+    boolean sourceValid = false;
+    boolean destinationValid = false;
     int tax;
 
-    while (validInput != 1) {
-      // check if both country from user's input are valid
+    // ask user for source
+    MessageCli.INSERT_SOURCE.printMessage();
+    // get input and capitalise first letter of each word
+    sourceCountry = Utils.scanner.nextLine();
+    sourceCountry = Utils.capitalizeFirstLetterOfEachWord(sourceCountry);
+    while (!sourceValid) {
+      // check if source country from user's input are valid
       try {
-        if (validInput == -1) {
-          // ask user for source
-          MessageCli.INSERT_SOURCE.printMessage();
-          // get input and capitalise first letter of each word
-          sourceCountry = Utils.scanner.nextLine();
-          sourceCountry = Utils.capitalizeFirstLetterOfEachWord(sourceCountry);
-          // set countryName, if throw exception print this name
-          countryName = sourceCountry;
-          // if exists continue, if not exception thrown
-          doesCountryExist(sourceCountry);
-          // exception is not thrown, input is valid
-          validInput++;
-        } else if (validInput == 0) {
-          // ask user for destination
-          MessageCli.INSERT_DESTINATION.printMessage();
-          destinationCountry = Utils.scanner.nextLine();
-          destinationCountry = Utils.capitalizeFirstLetterOfEachWord(destinationCountry);
-          countryName = destinationCountry;
-          doesCountryExist(destinationCountry);
-          validInput++;
-        }
+        // if exists continue, if not exception thrown
+        doesCountryExist(sourceCountry);
+        // exception is not thrown, input is valid
+        sourceValid = true;
+
       } catch (CountryDoesNotExistException e) {
         // print error message
-        MessageCli.INVALID_COUNTRY.printMessage(countryName);
+        MessageCli.INVALID_COUNTRY.printMessage(sourceCountry);
+        // get input and capitalise first letter of each word
+        sourceCountry = Utils.scanner.nextLine();
+        sourceCountry = Utils.capitalizeFirstLetterOfEachWord(sourceCountry);
+      }
+    }
+    // ask user for destination
+    MessageCli.INSERT_DESTINATION.printMessage();
+    destinationCountry = Utils.scanner.nextLine();
+    destinationCountry = Utils.capitalizeFirstLetterOfEachWord(destinationCountry);
+
+    while (!destinationValid) {
+      // check if destination country from user's input are valid
+      try {
+        doesCountryExist(destinationCountry);
+        destinationValid = true;
+
+      } catch (CountryDoesNotExistException e) {
+        // print error message
+        MessageCli.INVALID_COUNTRY.printMessage(destinationCountry);
+        destinationCountry = Utils.scanner.nextLine();
+        destinationCountry = Utils.capitalizeFirstLetterOfEachWord(destinationCountry);
       }
     }
 
