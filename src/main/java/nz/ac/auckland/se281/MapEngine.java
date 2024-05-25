@@ -124,20 +124,24 @@ public class MapEngine {
 
     // get the shortest path
     List<String> countryPath = route.detectPathFromSource(sourceCountry, destinationCountry);
-    // The fastest route of country
-    MessageCli.ROUTE_INFO.printMessage(countryPath.toString());
 
-    // get the unique ordered continents for countries in shortest path
-    Set<String> continentPath = route.getContinentInfo(map, countryPath);
-    // ordered list of continents visited(starting one included)
-    MessageCli.CONTINENT_INFO.printMessage(continentPath.toString());
-
+    // calculate tax
     tax = route.getTotalTax(map, countryPath);
+    // if tax is 0, no crossborder and the rest of the code will not be run
     if (tax == 0) {
       MessageCli.NO_CROSSBORDER_TRAVEL.printMessage();
       return;
     }
-    // total cross border taxes to pay(starting one excluded)
-    MessageCli.TAX_INFO.printMessage(Integer.toString(tax)); // tax num inside
+
+    // display the fastest route of countries
+    MessageCli.ROUTE_INFO.printMessage(countryPath.toString());
+
+    // get the unique ordered continents for countries in shortest path
+    Set<String> continentPath = route.getContinentInfo(map, countryPath);
+    // ordered list of continents visited(source country included)
+    MessageCli.CONTINENT_INFO.printMessage(continentPath.toString());
+
+    // total cross border taxes to pay(source country excluded)
+    MessageCli.TAX_INFO.printMessage(Integer.toString(tax));
   }
 }
