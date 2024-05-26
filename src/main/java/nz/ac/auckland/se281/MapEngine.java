@@ -45,36 +45,30 @@ public class MapEngine {
   public void showInfoCountry() {
     // declare fields
     // users input countryName for info
-    String countryName = null;
+    String countryName;
     // if the input is valid
     boolean validInput = false;
 
     // add code here to ask for user's input
     MessageCli.INSERT_COUNTRY.printMessage();
 
-    // get users input
-    countryName = Utils.scanner.nextLine();
-    // capitalise the first letter
-    countryName = Utils.capitalizeFirstLetterOfEachWord(countryName);
-
     // while the input is not valid, do try catch until valid input
     while (!validInput) {
       try {
-
+        // get users input
+        countryName = Utils.scanner.nextLine();
         // check if country is in map, if not exception is thrown and catched
-        doesCountryExist(countryName);
+        doesCountryExist(Utils.capitalizeFirstLetterOfEachWord(countryName));
         // if no exception thrown, the input is valid
         validInput = true;
         // else successfully print country info
         MessageCli.COUNTRY_INFO.printMessage(
-            countryName, map.get(countryName)[1], map.get(countryName)[2]);
+            Utils.capitalizeFirstLetterOfEachWord(countryName),
+            map.get(Utils.capitalizeFirstLetterOfEachWord(countryName))[1],
+            map.get(Utils.capitalizeFirstLetterOfEachWord(countryName))[2]);
       } catch (CountryDoesNotExistException e) {
         // print error message
-        MessageCli.INVALID_COUNTRY.printMessage(countryName);
-        // get users input
-        countryName = Utils.scanner.nextLine();
-        // capitalise the first letter
-        countryName = Utils.capitalizeFirstLetterOfEachWord(countryName);
+        MessageCli.INVALID_COUNTRY.printMessage(Utils.capitalizeFirstLetterOfEachWord(countryName));
       }
     }
   }
@@ -95,8 +89,8 @@ public class MapEngine {
   /** this method is invoked when the user run the command route. */
   public void showRoute() {
     // declare fields
-    String sourceCountry = null;
-    String destinationCountry = null;
+    String sourceCountry;
+    String destinationCountry;
     // check if source and destination input is valid
     boolean sourceValid = false;
     boolean destinationValid = false;
@@ -104,46 +98,44 @@ public class MapEngine {
 
     // ask user for source
     MessageCli.INSERT_SOURCE.printMessage();
-    // get input and capitalise first letter of each word
-    sourceCountry = Utils.scanner.nextLine();
-    sourceCountry = Utils.capitalizeFirstLetterOfEachWord(sourceCountry);
+
     while (!sourceValid) {
       // check if source country from user's input are valid
       try {
+        // get input and capitalise first letter of each word
+        sourceCountry = Utils.scanner.nextLine();
         // if exists continue, if not exception thrown
-        doesCountryExist(sourceCountry);
+        doesCountryExist(Utils.capitalizeFirstLetterOfEachWord(sourceCountry));
         // exception is not thrown, input is valid
         sourceValid = true;
 
       } catch (CountryDoesNotExistException e) {
         // print error message
-        MessageCli.INVALID_COUNTRY.printMessage(sourceCountry);
-        // get input and capitalise first letter of each word
-        sourceCountry = Utils.scanner.nextLine();
-        sourceCountry = Utils.capitalizeFirstLetterOfEachWord(sourceCountry);
+        MessageCli.INVALID_COUNTRY.printMessage(
+            Utils.capitalizeFirstLetterOfEachWord(sourceCountry));
       }
     }
     // ask user for destination
     MessageCli.INSERT_DESTINATION.printMessage();
-    destinationCountry = Utils.scanner.nextLine();
-    destinationCountry = Utils.capitalizeFirstLetterOfEachWord(destinationCountry);
-
     while (!destinationValid) {
       // check if destination country from user's input are valid
       try {
-        doesCountryExist(destinationCountry);
+        destinationCountry = Utils.scanner.nextLine();
+        doesCountryExist(Utils.capitalizeFirstLetterOfEachWord(destinationCountry));
         destinationValid = true;
 
       } catch (CountryDoesNotExistException e) {
         // print error message
-        MessageCli.INVALID_COUNTRY.printMessage(destinationCountry);
-        destinationCountry = Utils.scanner.nextLine();
-        destinationCountry = Utils.capitalizeFirstLetterOfEachWord(destinationCountry);
+        MessageCli.INVALID_COUNTRY.printMessage(
+            Utils.capitalizeFirstLetterOfEachWord(destinationCountry));
       }
     }
 
     // get the shortest path
-    List<String> countryPath = route.detectPathFromSource(sourceCountry, destinationCountry);
+    List<String> countryPath =
+        route.detectPathFromSource(
+            Utils.capitalizeFirstLetterOfEachWord(sourceCountry),
+            Utils.capitalizeFirstLetterOfEachWord(destinationCountry));
 
     // calculate tax
     tax = route.getTotalTax(map, countryPath);

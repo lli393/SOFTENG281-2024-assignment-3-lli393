@@ -43,6 +43,13 @@ public class Graph {
     adjacenciesMap.get(node1).add(node2);
   }
 
+  /**
+   * This method detects the shortest path from source to destination.
+   *
+   * @param startNode the node of source country
+   * @param endNode the node of destination country
+   * @return returns the shortest path from source to destination.
+   */
   public List<String> detectPathFromSource(String startNode, String endNode) {
     List<String> visited = new ArrayList<>();
     Queue<String> queue = new LinkedList<>();
@@ -107,7 +114,7 @@ public class Graph {
   }
 
   /**
-   * This method gets a integer of total tax user need to pay to travel in shortest path
+   * This method gets a integer of total tax user need to pay to travel in shortest path.
    *
    * @param map the map contains country name(string) as key and country info(string array) as
    *     value. country info consists country name(index 0), continent(index 1), tax value(index 2)
