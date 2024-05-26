@@ -45,7 +45,7 @@ public class MapEngine {
   public void showInfoCountry() {
     // declare fields
     // users input countryName for info
-    String countryName;
+    String countryName = null;
     // if the input is valid
     boolean validInput = false;
 
@@ -89,8 +89,8 @@ public class MapEngine {
   /** this method is invoked when the user run the command route. */
   public void showRoute() {
     // declare fields
-    String sourceCountry;
-    String destinationCountry;
+    String sourceCountry = null;
+    String destinationCountry = null;
     // check if source and destination input is valid
     boolean sourceValid = false;
     boolean destinationValid = false;
